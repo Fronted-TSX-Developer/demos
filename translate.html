@@ -5,12 +5,27 @@
 .main {
   display: flex;
   min-height: 10rem;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 790px){
+  .main {
+    flex-direction: column;
+  }
 }
 
 .input {
   width: 50%;
   padding-right: 0.25rem;
   position: relative;
+}
+
+@media screen and (max-width: 790px){
+  .input {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 0.5rem;
+  }
 }
 
 .inputarea{
@@ -33,6 +48,13 @@
   width: 50%;
   padding-left: 0.25rem;
   position: relative;
+}
+
+@media screen and (max-width: 790px){
+  .output {
+    width: 100%;
+    padding-left: 0;
+  }
 }
 
 .outputarea{
@@ -203,7 +225,10 @@
   }
 }
 ;</script>
-		 <!-- for typescript target: AMD -->
+		 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- for typescript target: AMD -->
 <script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
 
 </head><body><div id="root"></div>
@@ -218,6 +243,32 @@ requirejs.load = function (context, id, url) {
   }
   return oldLoad.call(requirejs, context, id, url)
 }
+
+// 2. declarations config
+// please remove it before sandbox exports.
+// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+if (top !== self) {
+  if (!top._finished) {
+    top.LOADING.init()
+    console.log('--- wait for types fetching... ---')
+    const info = m => `<span style="background:lightskyblue">${m}</span>`
+    const types = __VAR_JSON__.types
+    const names = Object.keys(types)
+    const count = names.length
+    let index = 0
+    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name)
+      .then(() =>
+        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+      .then(() => {
+        console.log(`--- types fetching finished. ---`)
+        top.LOADING.destroy()
+      })
+    top._finished = true
+  }
+}
+
+// 3. enjoy it!
+console.log(__VAR_JSON__.name, new Date().toLocaleString())
 
 	})();</script><script>var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
