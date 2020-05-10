@@ -1,0 +1,295 @@
+<!DOCTYPE html><html><head><style>.container {
+  padding: 0.5rem;
+}
+
+.main {
+  display: flex;
+  min-height: 10rem;
+}
+
+.input {
+  width: 50%;
+  padding-right: 0.25rem;
+  position: relative;
+}
+
+.inputarea{
+  height: 100%;
+  outline: 1px solid #2188ff;
+  padding: 0.25rem;
+}
+
+.inputarea::selection{
+  background: lightblue;
+}
+
+.inputarea:hover, .inputarea:focus{
+  border-color: #2188ff;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 0.2em rgba(3, 102, 214, 0.3);
+}
+
+.output {
+  width: 50%;
+  padding-left: 0.25rem;
+  position: relative;
+}
+
+.outputarea{
+  height: 100%;
+  outline: 1px solid lightgreen;
+  margin: 0;
+  padding: 0.25rem;
+  word-break: break-all;
+}
+
+.outputarea::selection{
+  background: lightgreen;
+}
+
+.outputarea:hover, .outputarea:focus{
+  border-color: lightgreen;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 0.2em lightgreen;
+}
+
+.loading {
+  position: absolute;
+  color: #545454;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  pointer-events: none
+}
+
+.loading-icon {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px
+}
+
+.loading-icon div {
+  position: absolute;
+  top: 27px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #007acc;
+  -webkit-animation-timing-function: cubic-bezier(0,1,1,0);
+  animation-timing-function: cubic-bezier(0,1,1,0)
+}
+
+.loading-icon div:first-child {
+  left: 6px;
+  -webkit-animation: loading-icon1 .6s infinite;
+  animation: loading-icon1 .6s infinite
+}
+
+.loading-icon div:nth-child(2) {
+  left: 6px
+}
+
+.loading-icon div:nth-child(2),.loading-icon div:nth-child(3) {
+  -webkit-animation: loading-icon2 .6s infinite;
+  animation: loading-icon2 .6s infinite
+}
+
+.loading-icon div:nth-child(3) {
+  left: 26px
+}
+
+.loading-icon div:nth-child(4) {
+  left: 45px;
+  -webkit-animation: loading-icon3 .6s infinite;
+  animation: loading-icon3 .6s infinite
+}
+
+@-webkit-keyframes loading-icon1 {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0)
+  }
+
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1)
+  }
+}
+
+@keyframes loading-icon1 {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0)
+  }
+
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1)
+  }
+}
+
+@-webkit-keyframes loading-icon3 {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1)
+  }
+
+  to {
+    -webkit-transform: scale(0);
+    transform: scale(0)
+  }
+}
+
+@keyframes loading-icon3 {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1)
+  }
+
+  to {
+    -webkit-transform: scale(0);
+    transform: scale(0)
+  }
+}
+
+@-webkit-keyframes loading-icon2 {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0)
+  }
+
+  to {
+    -webkit-transform: translate(19px);
+    transform: translate(19px)
+  }
+}
+
+@keyframes loading-icon2 {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0)
+  }
+
+  to {
+    -webkit-transform: translate(19px);
+    transform: translate(19px)
+  }
+}
+</style>
+		 <script>var __VAR_JSON__ = {
+  "name": "o(*≧▽≦)ツ┏━┓",
+  "dependencies": {
+    "react": "https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js",
+    "react-dom": "https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js",
+    "axios": "https://cdn.bootcss.com/axios/0.19.2/axios.min.js"
+  },
+  "types": {
+    "react": "https://www.unpkg.com/@types/react/index.d.ts",
+    "react-dom": "https://www.unpkg.com/@types/react-dom/index.d.ts",
+    "csstype": "https://www.unpkg.com/csstype/index.d.ts",
+    "prop-types": "https://www.unpkg.com/@types/prop-types/index.d.ts",
+    "axios": "https://unpkg.com/axios/index.d.ts"
+  }
+}
+;</script>
+		 <!-- for typescript target: AMD -->
+<script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+
+</head><body><div id="root"></div>
+
+		 <script>;(function(){
+	// 1. config requirejs
+const packages = __VAR_JSON__.dependencies
+const oldLoad = requirejs.load
+requirejs.load = function (context, id, url) {
+  if (id in packages) {
+    url = packages[id]
+  }
+  return oldLoad.call(requirejs, context, id, url)
+}
+
+	})();</script><script>var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define("index",["require", "exports", "react", "react-dom", "axios"], function (require, exports, react_1, react_dom_1, axios_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    react_1 = __importStar(react_1);
+    react_dom_1 = __importDefault(react_dom_1);
+    axios_1 = __importDefault(axios_1);
+    var Loading = "<div class=\"loading\">\n  <div class=\"loading-icon\">\n    <div></div>\n    <div></div>\n    <div></div>\n    <div></div>\n  </div>\n</div>";
+    var debounce = function (callback, delta, id) {
+        if (delta === void 0) { delta = 300; }
+        if (id === void 0) { id = "default"; }
+        clearTimeout(debounce[id]);
+        debounce[id] = setTimeout(callback, delta);
+    };
+    var App = function () {
+        var input_ref = react_1.useRef();
+        var output_ref = react_1.useRef();
+        var translate = function (_a) {
+            var input_ref = _a.input_ref, output_ref = _a.output_ref, from = _a.from, to = _a.to;
+            var text = input_ref.current.textContent;
+            if (text) {
+                var stens_1 = text.split(/\.|。/g).filter(function (s) { return s; });
+                debounce(function () {
+                    output_ref.current.innerHTML = Loading;
+                    Promise.all(stens_1.map(function (q) {
+                        return axios_1.default.post("https://v1.alapi.cn/api/fanyi", {
+                            from: from, to: to, q: q
+                        });
+                    })).then(function (res) {
+                        output_ref.current.innerHTML =
+                            res.map(function (res) { return res.data.data.trans_result[0].dst; }).join(',');
+                    }).catch(function () {
+                        output_ref.current.innerHTML = '翻译失败';
+                    });
+                });
+            }
+        };
+        react_1.useEffect(function () {
+            translate({
+                input_ref: input_ref,
+                output_ref: output_ref,
+                from: 'cn',
+                to: 'en'
+            });
+        }, []);
+        return react_1.default.createElement("div", { className: "container" },
+            react_1.default.createElement("main", { className: "main" },
+                react_1.default.createElement("section", { className: "input" },
+                    react_1.default.createElement("div", { ref: input_ref, className: "inputarea", contentEditable: true, onInput: function () { return translate({
+                            input_ref: input_ref,
+                            output_ref: output_ref,
+                            from: 'cn',
+                            to: 'en'
+                        }); } }, "\u4E2D\u6587")),
+                react_1.default.createElement("aside", { className: "output" },
+                    react_1.default.createElement("div", { ref: output_ref, className: "outputarea", contentEditable: true, onInput: function () { return translate({
+                            input_ref: output_ref,
+                            output_ref: input_ref,
+                            from: 'en',
+                            to: 'cn'
+                        }); } }, ">"))));
+    };
+    react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('root'));
+});
+;require(["index"])</script></body></html>
