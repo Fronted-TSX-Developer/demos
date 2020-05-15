@@ -19,6 +19,10 @@ ul {
   transform: translateX(-50%);
   text-shadow: 2px 2px #9a26c3, -1px -1px #000;
   pointer-events: none;
+}
+
+.block{
+  height: 30vh;
 }</style>
 		 
 		 <meta charset="UTF-8">
@@ -26,12 +30,12 @@ ul {
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 </head><body><form onsubmit="onSubmit(event)">
-	<input value="ひぐらしのなく頃に" placeholder="输入歌曲名..." type="text">
+	<input value="奈落の花" placeholder="输入歌曲名..." type="text">
 	<input type="submit" value="搜索">
 </form>
 
 	<ol id="list"></ol>
-
+	<div class="block"></div>
 	<i id="lc"></i>
 		 <script>;(function(){
 	const API = 'https://api.zhuolin.wang/api.php'
