@@ -75,15 +75,23 @@ const createMusic = (src, lcPre, lyc) => {
       audio = null
       lc.innerHTML = null
       lycer.stop()
+      lycer.handler = noop
       lycer = null
+    })
+    audio.addEventListener('error', () => {
+      lc.textContent = '资源加载失败'
     })
   }
   lycer = new Lyric(lyc, ({ txt }) => {
     lc.textContent = txt
   })
   audio.src = src
-  lc.textContent = lcPre
-  audio.play().then(() => lycer.play())
+  audio.play().then(() => {
+    lc.textContent = lcPre
+    lycer.play()
+  }).catch(() => {
+    lc.textContent = '播放失败'
+  })
 }
 
 const list = document.querySelector('#list')
