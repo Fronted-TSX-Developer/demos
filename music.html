@@ -67,6 +67,14 @@ let audio = null
 let lycer = null
 const lc = document.querySelector('#lc')
 
+const clearLyc = () => {
+  lc.innerHTML = null
+  if(!lycer) return
+  lycer.stop()
+  lycer.handler = noop
+  lycer = null
+}
+
 const createMusic = (src, lcPre, lyc) => {
   if (audio === null) {
     audio = document.createElement('audio')
@@ -77,15 +85,13 @@ const createMusic = (src, lcPre, lyc) => {
     audio.addEventListener('ended', () => {
       audio.remove()
       audio = null
-      lc.innerHTML = null
-      lycer.stop()
-      lycer.handler = noop
-      lycer = null
+      clearLyc()
     })
     audio.addEventListener('error', () => {
       lc.textContent = '资源加载失败'
     })
   }
+  clearLyc()
   lycer = new Lyric(lyc, ({ txt }) => {
     lc.textContent = txt
   })
