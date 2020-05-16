@@ -141,12 +141,7 @@ list.addEventListener('click', async event => {
         id,
         source: "netease"
       })
-      const external = window.open();
-      audio = document.createElement('audio')
-      audio.controls = true
-      audio.autoplay = true
-      audio.src = music.url
-      external.window.document.body.appendChild(audio);
+      window.open(music.url, "_blank");
     }
   }
 })
