@@ -1,0 +1,157 @@
+<!DOCTYPE html><html><head><script>var __VAR_JSON__ = {
+  "name": "o(*≧▽≦)ツ┏━┓",
+  "dependencies": {
+    "react": "https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js",
+    "react-dom": "https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js"
+  },
+  "types": {
+    "react": "https://www.unpkg.com/@types/react/index.d.ts",
+    "react-dom": "https://www.unpkg.com/@types/react-dom/index.d.ts",
+    "csstype": "https://www.unpkg.com/csstype/index.d.ts",
+    "prop-types": "https://www.unpkg.com/@types/prop-types/index.d.ts"
+  }
+}
+;</script>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- for typescript target: AMD -->
+<script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+
+</head><body><div id="test"></div>
+
+		 <script>;(function(){
+	// 1. config requirejs
+const packages = __VAR_JSON__.dependencies
+const oldLoad = requirejs.load
+requirejs.load = function (context, id, url) {
+  if (id in packages) {
+    url = packages[id]
+  }
+  return oldLoad.call(requirejs, context, id, url)
+}
+
+// 2. declarations config
+// please remove it before sandbox exports.
+// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+if (top !== self) {
+  if (!top._finished) {
+    top.LOADING.init()
+    const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
+    console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
+    console.log('--- wait for types fetching... ---')
+    const info = m => `<span style="background:lightskyblue">${m}</span>`
+    const types = __VAR_JSON__.types
+    const names = Object.keys(types)
+    const count = names.length
+    let index = 0
+    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name)
+      .then(() =>
+        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+      .then(() => {
+        console.log(`--- types fetching finished. ---`)
+        top.LOADING.destroy()
+      })
+    top._finished = true
+  }
+}
+
+// 3. enjoy it!
+console.log(__VAR_JSON__.name, new Date().toLocaleString())
+
+	})();</script><script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define("index",["require", "exports", "react", "react-dom"], function (require, exports, react_1, react_dom_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    react_1 = __importStar(react_1);
+    react_dom_1 = __importDefault(react_dom_1);
+    var DAYS = 30;
+    var App = function (_a) {
+        var _b = __read(react_1.useState(), 2), result = _b[0], setResult = _b[1];
+        var _c = __read(react_1.useState(), 2), day_start = _c[0], setDay_start = _c[1];
+        var _d = __read(react_1.useState(), 2), day_end = _d[0], setDay_end = _d[1];
+        var _e = __read(react_1.useState(), 2), xiuxiSub = _e[0], setXiuxiSub = _e[1];
+        var _f = __read(react_1.useState(), 2), xinzi = _f[0], setXinzi = _f[1];
+        react_1.useEffect(function () {
+            if (day_start &&
+                day_end &&
+                xiuxiSub &&
+                xinzi) {
+                var day_hours = (day_end + 12) - day_start;
+                var work_days = DAYS - xiuxiSub;
+                var hours = work_days * day_hours;
+                var result_1 = xinzi / hours;
+                setResult(Number(result_1).toFixed(2));
+            }
+        }, [
+            day_start,
+            day_end,
+            xiuxiSub,
+            xinzi,
+        ]);
+        return react_1.default.createElement("div", null,
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "1. \u5DE5\u4F5C\u65F6\u95F4"),
+                react_1.default.createElement("dd", null,
+                    "\u65E9\uFF1A",
+                    react_1.default.createElement("input", { placeholder: "\u4F8B\u5982: 9", type: "number", value: day_start, onInput: function (e) { return setDay_start(Number(e.target['value'])); } })),
+                react_1.default.createElement("dd", null,
+                    "\u665A\uFF1A",
+                    react_1.default.createElement("input", { placeholder: "\u4F8B\u5982: 6", type: "number", value: day_end, onInput: function (e) { return setDay_end(Number(e.target['value'])); } }))),
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "2. \u4F11\u606F\u65E5"),
+                react_1.default.createElement("dd", null,
+                    react_1.default.createElement("input", { type: "radio", name: "xiuxi", id: "xiuxi-shuang", value: xiuxiSub, onInput: function () { return setXiuxiSub(8); } }),
+                    react_1.default.createElement("label", { htmlFor: "xiuxi-shuang" }, "\u53CC\u4F11;"),
+                    react_1.default.createElement("input", { type: "radio", name: "xiuxi", id: "xiuxi-dan", value: xiuxiSub, onInput: function () { return setXiuxiSub(4); } }),
+                    react_1.default.createElement("label", { htmlFor: "xiuxi-dan" }, "\u5355\u4F11;"),
+                    react_1.default.createElement("input", { type: "radio", name: "xiuxi", id: "xiuxi-daxiao", value: xiuxiSub, onInput: function () { return setXiuxiSub(6); } }),
+                    react_1.default.createElement("label", { htmlFor: "xiuxi-daxiao" }, "\u5927\u5C0F\u5468;"))),
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "3. \u5F53\u524D\u85AA\u8D44"),
+                react_1.default.createElement("dd", null,
+                    react_1.default.createElement("input", { type: "text", placeholder: "\u8F93\u5165\u85AA\u8D44\uFF08\u5143\uFF09", value: xinzi, onInput: function (e) { return setXinzi(Number(e.target['value'])); } }))),
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "4. \u4F60\u76EE\u524D\u7684\u65F6\u85AA\uFF1A"),
+                react_1.default.createElement("dd", null,
+                    react_1.default.createElement("input", { value: result, type: "number" }))));
+    };
+    react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('test'));
+});
+;require(["index"])</script></body></html>
