@@ -103,11 +103,14 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
     react_dom_1 = __importDefault(react_dom_1);
     var DAYS = 30;
     var App = function (_a) {
-        var _b = __read(react_1.useState(), 2), result = _b[0], setResult = _b[1];
-        var _c = __read(react_1.useState(), 2), day_start = _c[0], setDay_start = _c[1];
-        var _d = __read(react_1.useState(), 2), day_end = _d[0], setDay_end = _d[1];
-        var _e = __read(react_1.useState(), 2), xiuxiSub = _e[0], setXiuxiSub = _e[1];
-        var _f = __read(react_1.useState(), 2), xinzi = _f[0], setXinzi = _f[1];
+        var _b = __read(react_1.useState(), 2), shixin = _b[0], setShixin = _b[1];
+        var _c = __read(react_1.useState(), 2), shouru = _c[0], setShouru = _c[1];
+        var _d = __read(react_1.useState(), 2), day_start = _d[0], setDay_start = _d[1];
+        var _e = __read(react_1.useState(), 2), day_end = _e[0], setDay_end = _e[1];
+        var _f = __read(react_1.useState(), 2), xiuxiSub = _f[0], setXiuxiSub = _f[1];
+        var _g = __read(react_1.useState(), 2), xinzi = _g[0], setXinzi = _g[1];
+        var _h = __read(react_1.useState(), 2), tongq = _h[0], setTongq = _h[1];
+        var _j = __read(react_1.useState(), 2), fangzu = _j[0], setFangzu = _j[1];
         react_1.useEffect(function () {
             if (day_start &&
                 day_end &&
@@ -116,8 +119,8 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
                 var day_hours = (day_end + 12) - day_start;
                 var work_days = DAYS - xiuxiSub;
                 var hours = work_days * day_hours;
-                var result_1 = xinzi / hours;
-                setResult(Number(result_1).toFixed(2));
+                var result = xinzi / hours;
+                setShixin(Number(result).toFixed(2));
             }
         }, [
             day_start,
@@ -125,6 +128,12 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
             xiuxiSub,
             xinzi,
         ]);
+        react_1.useEffect(function () {
+            if (xinzi && tongq && fangzu) {
+                var result = xinzi - fangzu - tongq * DAYS;
+                setShouru(result);
+            }
+        }, [xinzi, tongq, fangzu]);
         return react_1.default.createElement("div", null,
             react_1.default.createElement("dl", null,
                 react_1.default.createElement("dt", null, "1. \u5DE5\u4F5C\u65F6\u95F4"),
@@ -146,11 +155,30 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
             react_1.default.createElement("dl", null,
                 react_1.default.createElement("dt", null, "3. \u5F53\u524D\u85AA\u8D44"),
                 react_1.default.createElement("dd", null,
-                    react_1.default.createElement("input", { type: "text", placeholder: "\u8F93\u5165\u85AA\u8D44\uFF08\u5143\uFF09", value: xinzi, onInput: function (e) { return setXinzi(Number(e.target['value'])); } }))),
+                    react_1.default.createElement("input", { type: "text", placeholder: "\u8F93\u5165\u85AA\u8D44\uFF08\u6BCF\u6708, \u5143\uFF09", value: xinzi, onInput: function (e) { return setXinzi(Number(e.target['value'])); } }))),
             react_1.default.createElement("dl", null,
-                react_1.default.createElement("dt", null, "4. \u4F60\u76EE\u524D\u7684\u65F6\u85AA\uFF1A"),
+                react_1.default.createElement("dt", null, "4. \u901A\u52E4\u8D39\u7528\uFF08\u6216\u65E5\u6D88\u8D39\uFF09"),
                 react_1.default.createElement("dd", null,
-                    react_1.default.createElement("input", { value: result, type: "number" }))));
+                    react_1.default.createElement("input", { type: "text", placeholder: "\u8F93\u5165\u901A\u52E4\u8D39\u7528\uFF08\u6BCF\u65E5, \u5143\uFF09", value: tongq, onInput: function (e) { return setTongq(Number(e.target['value'])); } }))),
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "5. \u623F\u79DF\u8D39\u7528\uFF08\u6216\u6708\u6D88\u8D39\uFF09"),
+                react_1.default.createElement("dd", null,
+                    react_1.default.createElement("input", { type: "text", placeholder: "\u8F93\u5165\u623F\u79DF\u8D39\u7528\uFF08\u6BCF\u6708, \u5143\uFF09", value: fangzu, onInput: function (e) { return setFangzu(Number(e.target['value'])); } }))),
+            react_1.default.createElement("dl", null,
+                react_1.default.createElement("dt", null, "6. \u7ED3\u679C"),
+                react_1.default.createElement("dd", null, shixin && react_1.default.createElement(react_1.default.Fragment, null,
+                    "\u65F6\u85AA: ",
+                    shixin)),
+                react_1.default.createElement("dd", null, shouru && react_1.default.createElement(react_1.default.Fragment, null,
+                    "\u51C0\u6536\u5165(\u6708): ",
+                    shouru)),
+                react_1.default.createElement("dd", null, shouru && react_1.default.createElement(react_1.default.Fragment, null,
+                    "\u51C0\u6536\u5165(\u5E74): ",
+                    Number(shouru) * 12)),
+                react_1.default.createElement("dd", null, shouru && react_1.default.createElement(react_1.default.Fragment, null,
+                    "\u6512100w\u9700\u8981\u81F3\u5C11",
+                    Number(1000000 / (Number(shouru) * 12)).toFixed(1),
+                    "\u5E74"))));
     };
     react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('test'));
 });
