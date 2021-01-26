@@ -1,0 +1,149 @@
+<!DOCTYPE html><html><head><style>html,body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#test {
+  padding: 24px;
+}
+.input_wrapper {
+  width: 100%;
+  display: flex;
+}
+.input {
+ width: 100%; 
+ min-height: 200px;
+ flex-grow: 1;
+}
+.output_wrapper {
+}
+.output {
+ width: 100%; 
+ min-height: 200px;
+}</style>
+		 <script>var __VAR_JSON__ = {
+  "name": "o(*≧▽≦)ツ┏━┓",
+  "dependencies": {
+    "react": "https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js",
+    "react-dom": "https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js"
+  },
+  "types": {
+    "react": "https://www.unpkg.com/@types/react/index.d.ts",
+    "react-dom": "https://www.unpkg.com/@types/react-dom/index.d.ts",
+    "csstype": "https://www.unpkg.com/csstype/index.d.ts",
+    "prop-types": "https://www.unpkg.com/@types/prop-types/index.d.ts"
+  }
+}
+;</script>
+		 <!-- for typescript target: AMD -->
+<script>!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).Ptbk=t()}(this,function(){"use strict";var u="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function e(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}function t(e,t){return e(t={exports:{}},t.exports),t.exports}var a=t(function(e,t){var o=u&&u.__read||function(e,t){var n="function"==typeof Symbol&&e[Symbol.iterator];if(!n)return e;var r,o,i=n.call(e),a=[];try{for(;(void 0===t||0<t--)&&!(r=i.next()).done;)a.push(r.value)}catch(e){o={error:e}}finally{try{r&&!r.done&&(n=i.return)&&n.call(i)}finally{if(o)throw o.error}}return a};Object.defineProperty(t,"__esModule",{value:!0}),t.Ptbk=void 0;function i(e){return function(o){return e.reduce(function(e,t,n){var r;return o[n]?Object.assign(e,((r={})[t]=o[n],r)):e},{})}}function n(e){return(e=o(e,2))[0]+e[1]}var r=function(e){var t=e.length/2;return[e.slice(0,t),e.slice(t)]},r=(a.prototype.create=function(e,t){return new a(e,t)},a.prototype.isPtbk=function(e){return!!(null!=e&&e.auth&&null!=e&&e.data&&null!=e&&e.ptbk)},a.isPtbk=function(e){return a.instance.isPtbk(e)},a.encode=function(e){return a.instance.encode(e)},a.decode=function(e){return a.instance.decode(e)},a.setEnable=function(e){return void 0===e&&(e=!0),a.instance.setEnable(e)},a.create=function(e,t){return a.instance.create(e,t)},a.instance=new a(n,r),a);function a(e,t,n){var r=this;void 0===n&&(n="bWFkZSBieSAxMDI5OTg1Nzk5QHFxLmNvbQ=="),this.encodePtbk=e,this.decodePtbk=t,this.auth=n,this.enable=!0,this.setEnable=function(e){void 0===e&&(e=!0),r.enable=e},this.createPtbkMap=function(e,t){void 0===t&&(t=!1);var n=o(r.decodePtbk(e),2),e=n[0],n=n[1],e=Array.from(e),n=Array.from(n);return t?i(e)(n):i(n)(e)},this.decodeDataFromPtbk=function(e,t){var n=r.createPtbkMap(e);return Array.from(t).map(function(e){return n[e]}).join("")},this.encodeDataFromPtbk=function(e,t){var n=r.createPtbkMap(e,!0);return Array.from(t).map(function(e){return n[e]}).join("")},this.createPrivateUniqid=function(e){return Array.from(new Set(Array.from(e))).join("")},this.createPublicUniqid=function(e){for(var t=e.length,n=e,r=n.length,o=[];;){o.push(n[Math.floor(Math.random()*r)]);var i=Array.from(new Set(o));if(i.length===t)return i.join("")}},this.createPtbk=function(e){var t=r.createPrivateUniqid(e),e=r.createPublicUniqid(t);return r.encodePtbk([t,e])},this.encode=function(e){if(!r.enable)return e;if(r.isPtbk(e))return e;var t={ptbk:null,auth:r.auth,data:null},n=encodeURI(JSON.stringify(e)),e=r.createPtbk(n);return t.ptbk=e,t.data=r.encodeDataFromPtbk(e,n),t},this.decode=function(e){if(!r.enable)return e;if(r.isPtbk(e)){var t=e;return JSON.parse(decodeURI(r.decodeDataFromPtbk(null==t?void 0:t.ptbk,null==t?void 0:t.data)))}return e}}t.Ptbk=r,t.default=r});e(a);a.Ptbk;return e(t(function(e,t){var r=u&&u.__createBinding||(Object.create?function(e,t,n,r){void 0===r&&(r=n),Object.defineProperty(e,r,{enumerable:!0,get:function(){return t[n]}})}:function(e,t,n,r){void 0===r&&(r=n),e[r]=t[n]}),n=u&&u.__exportStar||function(e,t){for(var n in e)"default"===n||Object.prototype.hasOwnProperty.call(t,n)||r(t,e,n)},o=u&&u.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0,n(a,t);var i=a;Object.defineProperty(t,"default",{enumerable:!0,get:function(){return o(i).default}})}))});</script>
+<script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+
+</head><body><div id="test"></div>
+
+		 <script>;(function(){
+	// 1. config requirejs
+const packages = __VAR_JSON__.dependencies
+const oldLoad = requirejs.load
+requirejs.load = function (context, id, url) {
+  if (id in packages) {
+    url = packages[id]
+  }
+  return oldLoad.call(requirejs, context, id, url)
+}
+
+// 2. declarations config
+// please remove it before sandbox exports.
+// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+if (top !== self) {
+  if (!top._finished) {
+    top.LOADING.init()
+    const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
+    console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
+    console.log('--- wait for types fetching... ---')
+    const info = m => `<span style="background:lightskyblue">${m}</span>`
+    const types = __VAR_JSON__.types
+    const names = Object.keys(types)
+    const count = names.length
+    let index = 0
+    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name)
+      .then(() =>
+        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+      .then(() => {
+        console.log(`--- types fetching finished. ---`)
+        top.LOADING.destroy()
+      })
+    top._finished = true
+  }
+}
+
+// 3. enjoy it!
+console.log(__VAR_JSON__.name, new Date().toLocaleString())
+
+	})();</script><script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define("index",["require", "exports", "react", "react-dom"], function (require, exports, react_1, react_dom_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    react_1 = __importStar(react_1);
+    react_dom_1 = __importDefault(react_dom_1);
+    var App = function (_a) {
+        var _b = __read(react_1.useState(), 2), state = _b[0], setState = _b[1];
+        var _c = __read(react_1.useState(), 2), str = _c[0], setStr = _c[1];
+        var _d = __read(react_1.useState(), 2), result = _d[0], setResult = _d[1];
+        react_1.useEffect(function () {
+            var ptbk = eval(state);
+            if (ptbk && str) {
+                setResult(JSON.stringify(ptbk.decode(JSON.parse(str)), null, 2));
+            }
+        }, [state, str]);
+        return react_1.default.createElement("div", null,
+            react_1.default.createElement("div", { className: "input_wrapper" },
+                react_1.default.createElement("textarea", { className: "input", placeholder: "\u8F93\u5165create\u4EE3\u7801", onInput: function (e) {
+                        setState(e.target['value']);
+                    } }),
+                react_1.default.createElement("textarea", { className: "input", placeholder: "\u8F93\u5165ptbk object", onInput: function (e) {
+                        setStr(e.target['value']);
+                    } })),
+            react_1.default.createElement("div", { className: "output_wrapper" },
+                react_1.default.createElement("textarea", { className: "output", placeholder: "\u5F85\u8F93\u51FA\u7ED3\u679C", value: result })));
+    };
+    react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('test'));
+});
+;require(["index"])</script></body></html>
