@@ -125,7 +125,10 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
             }
         }, [state]);
         return react_1.default.createElement("div", null,
-            react_1.default.createElement("input", { value: state, onInput: function (e) { return setState(e.target['value']); } }),
+            react_1.default.createElement("textarea", { style: {
+                    width: 300,
+                    height: 100
+                }, value: state, onInput: function (e) { return setState(e.target['value']); } }),
             react_1.default.createElement("div", { style: {
                     marginTop: 16
                 }, ref: root }));
