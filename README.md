@@ -11,3 +11,5 @@
 5. [xinzi](https://fronted-tsx-developer.github.io/demos/xinzi.html)
 
 6. [ptbk](https://fronted-tsx-developer.github.io/demos/ptbk.html)
+
+7. [qrcode](https://fronted-tsx-developer.github.io/demos/qrcode.html)
