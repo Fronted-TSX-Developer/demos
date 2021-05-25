@@ -1,0 +1,135 @@
+<!DOCTYPE html><html><head><script>var __VAR_JSON__ = {
+  "name": "o(*≧▽≦)ツ┏━┓",
+  "dependencies": {
+    "react": "https://cdn.bootcss.com/react/16.13.1/umd/react.production.min.js",
+    "react-dom": "https://cdn.bootcss.com/react-dom/16.13.1/umd/react-dom.production.min.js",
+    "qrcode": "https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  },
+  "types": {
+    "react": "https://www.unpkg.com/@types/react/index.d.ts",
+    "react-dom": "https://www.unpkg.com/@types/react-dom/index.d.ts",
+    "csstype": "https://www.unpkg.com/csstype/index.d.ts",
+    "prop-types": "https://www.unpkg.com/@types/prop-types/index.d.ts",
+  }
+}
+;</script>
+		 <!-- for typescript target: AMD -->
+<script src="https://cdn.bootcss.com/require.js/2.3.6/require.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.js"></script>
+
+</head><body><div id="test"></div>
+
+		 <script>;(function(){
+	// 1. config requirejs
+const packages = __VAR_JSON__.dependencies
+const oldLoad = requirejs.load
+requirejs.load = function (context, id, url) {
+  if (id in packages) {
+    url = packages[id]
+  }
+  return oldLoad.call(requirejs, context, id, url)
+}
+
+// 2. declarations config
+// please remove it before sandbox exports.
+// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+if (top !== self) {
+  if (!top._finished) {
+    top.LOADING.init()
+    const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
+    console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
+    console.log('--- wait for types fetching... ---')
+    const info = m => `<span style="background:lightskyblue">${m}</span>`
+    const types = __VAR_JSON__.types
+    const names = Object.keys(types)
+    const count = names.length
+    let index = 0
+    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name)
+      .then(() =>
+        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+      .then(() => {
+        console.log(`--- types fetching finished. ---`)
+        top.LOADING.destroy()
+      })
+    top._finished = true
+  }
+}
+
+// 3. enjoy it!
+console.log(__VAR_JSON__.name, new Date().toLocaleString())
+
+	})();</script><script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define("index",["require", "exports", "react", "react-dom"], function (require, exports, react_1, react_dom_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    react_1 = __importStar(react_1);
+    react_dom_1 = __importDefault(react_dom_1);
+    var App = function (_a) {
+        var _b = __read(react_1.useState('http://jindo.dev.naver.com/collie'), 2), state = _b[0], setState = _b[1];
+        var gen = react_1.useRef();
+        var root = react_1.useRef();
+        react_1.useEffect(function () {
+            if (gen.current) {
+            }
+            else {
+                gen.current = new QRCode(root.current, {
+                    text: state,
+                    width: 128,
+                    height: 128,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        }, []);
+        react_1.useEffect(function () {
+            if (gen.current && state) {
+                gen.current.makeCode(state);
+            }
+        }, [state]);
+        return react_1.default.createElement("div", null,
+            react_1.default.createElement("input", { value: state, onInput: function (e) { return setState(e.target['value']); } }),
+            react_1.default.createElement("div", { style: {
+                    marginTop: 16
+                }, ref: root }));
+    };
+    react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('test'));
+});
+;require(["index"])</script></body></html>
