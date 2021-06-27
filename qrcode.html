@@ -104,7 +104,8 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
     react_1 = __importStar(react_1);
     react_dom_1 = __importDefault(react_dom_1);
     var App = function (_a) {
-        var _b = __read(react_1.useState('https://saber2pr.top/'), 2), state = _b[0], setState = _b[1];
+        var url = new URLSearchParams(location.search).get('url') || 'https://saber2pr.top/'
+        var _b = __read(react_1.useState(url), 2), state = _b[0], setState = _b[1];
         var gen = react_1.useRef();
         var root = react_1.useRef();
         react_1.useEffect(function () {
