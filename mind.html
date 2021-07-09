@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mind Editor</title>
+	<link rel="stylesheet" src="https://saber2pr.gitee.io/libs/kityminder-core/kityminder.core.css">
+	</link>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #inputer {
+            position: fixed;
+            display: none;
+        }
+        #mover {
+            user-select: none;
+            border: 1px solid;
+            cursor: grab;
+            background: #c9eaf1;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            left: -10px;
+            top: -10px;
+        }
+        #menu {
+            display: none;
+            border: 1px solid;
+            position: fixed;
+            text-align: center;
+            border-radius: 5px;
+            background: white;
+        }
+        #menu button,#menu select {
+            width: 100%;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #input {
+            background: white;
+            min-width: 5rem;
+            min-height: 2rem;
+            border: 1px solid;
+        }
+
+        .hide {
+            position: absolute;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="inputer">
+        <div id="mover"></div>
+        <div contenteditable="true" id="input"></div>
+    </div>
+    <input class="hide" id="file-input" type="file" />
+    <a class="hide" download="mind.json" id="file-dl"></a>
+    <div id="menu">
+        <ul>
+            <li><button onclick="minder.execCommand('AppendChildNode', 'child');save();">添加下级</button></li>
+            <li><button onclick="minder.execCommand('AppendSiblingNode', 'sibling');save();">添加同级</button></li>
+            <li><button onclick="var _imageURL = prompt('图片URL:');minder.execCommand('Image', _imageURL, '');save();">添加图片</button></li>
+            <li><button onclick="minder.execCommand('RemoveNode');save();">删除</button></li>
+            <li>
+                <select title="模版" onchange="minder.execCommand('Template', this.value);save();">
+                    <option value="default">default</option>
+                    <option value="structure">structure</option>
+                    <option value="filetree">filetree</option>
+                    <option value="right">right</option>
+                    <option value="fish-bone">fish-bone</option>
+                    <option value="tianpan">tianpan</option>
+                </select>
+            </li>
+            <li>
+                <select title="主题" onchange="minder.execCommand('Theme', this.value);save();">
+                    <option value="classic">classic</option>
+                    <option value="classic-compact">classic-c</option>
+                    <option value="snow">snow</option>
+                    <option value="snow-compact">snow-c</option>
+                    <option value="fresh-red">fresh-red</option>
+                    <option value="fresh-red-compat">fresh-red-c</option>
+                    <option value="fresh-soil">fresh-soil</option>
+                    <option value="fresh-soil-compat">fresh-soil-c</option>
+                    <option value="fresh-green">fresh-green</option>
+                    <option value="fresh-green-compat">fresh-green-c</option>
+                    <option value="fresh-blue">fresh-blue</option>
+                    <option value="fresh-blue-compat">fresh-blue-c</option>
+                    <option value="fresh-purple">fresh-purple</option>
+                    <option value="fresh-purple-compat">fresh-purple-c</option>
+                    <option value="fresh-pink">fresh-pink</option>
+                    <option value="fresh-pink-compat">fresh-pink-c</option>
+                    <option value="fish">fish</option>
+                    <option value="wire">wire</option>
+                    <option value="tianpan">tianpan</option>
+                    <option value="tianpan-compact">tianpan-c</option>
+                </select>
+            </li>
+            <li style="display: flex">
+                <button onclick="file_input.click();">导入</button>
+                <button onclick="download();">导出</button>
+            </li>
+            <li style="display: flex">
+                <button onclick="save();">保存</button>
+                <button onclick="SVGtoPNG.downloadPNG(minder.getPaper().node, 'mind.png');">打印</button>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript" src="https://saber2pr.gitee.io/libs/loading.min.js"></script>
+    <script>
+        LOADING.init()
+    </script>
+    <script type="text/javascript" src="https://saber2pr.gitee.io/libs/kityminder-core/kity.min.js"></script>
+	<script src="https://saber2pr.gitee.io/libs/kityminder-core/kityminder.core.min.js"></script>
+	<script src="https://saber2pr.gitee.io/libs/svgToPng.min.js"></script>
+    <script>
+        LOADING.destroy()
+    </script>
+    <script>
+        // by saber2pr
+        var input = document.getElementById('input')
+        var inputer = document.getElementById('inputer')
+        var mover = document.getElementById('mover')
+        var menu = document.getElementById('menu')
+        var file_input = document.getElementById('file-input')
+        var file_dl = document.getElementById('file-dl')
+        
+        var debounce = (callback, delta = 100, id = "default") => {
+            clearTimeout(debounce[id])
+            debounce[id] = setTimeout(callback, delta)
+        }
+        var minder = new kityminder.Minder({
+            renderTo: '#container',
+            enableAnimation: false
+        });
+
+        var download = () => {
+            var blob = new Blob([JSON.stringify(minder.exportJson(), null, 2)])
+            file_dl.href = URL.createObjectURL(blob)
+            file_dl.click()
+        }
+
+        file_input.oninput = () => {
+            var file = file_input.files[0]
+            readFile(file)
+                .then(content => minder.importJson(JSON.parse(content)))
+        }
+
+        input.oninput = e => debounce(() => {
+            minder.execCommand('text', e.target.innerText)
+            save()
+        })
+        minder.on('dblclick', e => {
+            if(minder.getSelectedNode()){
+                var x = e.kityEvent.originEvent.clientX
+                var y = e.kityEvent.originEvent.clientY
+                inputer.style.display = 'inline'
+                inputer.style.left = x + 'px'
+                inputer.style.top = y + 'px'
+                input.innerText = minder.queryCommandValue('text')
+            }
+        })
+        minder.on('click', e => {
+            var type = e.kityEvent.targetShape.__KityClassName
+            if(type === 'Paper') {
+                inputer.style.display = 'none'
+            }
+        })
+
+        var recorder = {
+            record: [],
+            max: 20,
+            currentIndex: 0,
+            push(...values) {
+                this.record.push(...values)
+                this.clean()
+            },
+            clean() {
+                while (this.record.length > this.max) {
+                    this.record.shift()
+                }
+                this.currentIndex = this.record.length - 1
+            },
+            forward() {
+                this.currentIndex =
+                    this.currentIndex < this.record.length - 1
+                        ? this.currentIndex + 1
+                        : this.currentIndex
+                return this.record[this.currentIndex]
+            },
+            back() {
+                this.currentIndex =
+                    this.currentIndex > 0
+                        ? this.currentIndex - 1
+                        : this.currentIndex
+                return this.record[this.currentIndex]
+            }
+        }
+        
+        var save = () => {
+            var json = minder.exportJson()
+            recorder.push(json)
+            localStorage.setItem('MINDER_Data', JSON.stringify(json))
+            localStorage.setItem('MINDER_Template', minder.getTemplate())
+            localStorage.setItem('MINDER_Theme', minder.getTheme())
+        }
+        var restore = () => {
+            var json = JSON.parse(localStorage.getItem('MINDER_Data'))
+            recorder.push(json)
+            minder.importJson(json)
+            minder.execCommand('Template', localStorage.getItem('MINDER_Template'))
+            minder.execCommand('Theme', localStorage.getItem('MINDER_Theme'))
+        }
+        window.onload = restore
+
+        var addDragListener = (target, callback, onDragStart, onDragEnd) => {
+            var lock = false
+            target.onmousedown = event => {
+                lock = true
+                onDragStart && onDragStart(event)
+            }
+            document.onmousemove = event => {
+                if (lock) {
+                    callback(event)
+                }
+            }
+            target.onmouseup = event => {
+                lock = false
+                onDragEnd && onDragEnd(event)
+            }
+        }
+
+        addDragListener(mover, e => {
+            var x = e.clientX
+            var y = e.clientY
+            inputer.style.left = x + 5 + 'px'
+            inputer.style.top = y + 5 + 'px'
+        })
+
+        window.addEventListener('contextmenu', e => {
+            menu.style.display = 'block'
+            var x = e.clientX
+            var y = e.clientY
+            menu.style.left = x + 'px'
+            menu.style.top = y + 'px'
+        })
+
+        window.addEventListener('click', e => {
+            if(e.target !== menu && e.target.tagName !== 'SELECT'){
+                menu.style.display = 'none'
+            }
+        })
+
+        window.addEventListener('keydown', e => {
+            var keyCode = e.keyCode || e.which || e.charCode;
+            var altKey = e.ctrlKey;
+            if (altKey && keyCode == 90) {
+                minder.importJson(recorder.back())
+                e.preventDefault();
+                return false
+            }
+            if (altKey && keyCode == 89) {
+                minder.importJson(recorder.forward())
+                e.preventDefault();
+                return false
+            }
+
+            if(altKey && keyCode == 67){
+                minder.execCommand('Copy');
+                e.preventDefault();
+                return false
+            }
+
+            if(altKey && keyCode == 86){
+                minder.execCommand('Paste')
+                save();
+                e.preventDefault();
+                return false
+            }
+
+            if(keyCode == 46){
+                minder.execCommand('RemoveNode')
+                save();
+                e.preventDefault();
+                return false
+            }
+
+            if(keyCode == 9){
+                minder.execCommand('AppendChildNode', 'child')
+                save();
+                e.preventDefault();
+                return false
+            }
+
+            if(keyCode == 13){
+                minder.execCommand('AppendSiblingNode', 'sibling')
+                save();
+                e.preventDefault();
+                return false
+            }
+        })
+
+        var readFile = file =>
+            new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = () => reject(reader.result)
+                reader.readAsText(file)
+            })
+
+        var addUploadListener = callback => {
+            document.addEventListener("dragover", e => e.preventDefault())
+            document.addEventListener("drop", event => {
+                event.preventDefault()
+                var dt = event.dataTransfer
+                var file = dt.files[0]
+                readFile(file).then(content =>
+                    callback({ name: file.name, type: file.type, content })
+                )
+            })
+        }
+
+        addUploadListener(({ content }) => minder.importJson(JSON.parse(content)))
+    </script>
+</body>
+</html>
