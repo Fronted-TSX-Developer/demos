@@ -8,4 +8,4 @@
 6. [ptbk](https://fronted-tsx-developer.github.io/demos/ptbk.html)
 7. [qrcode](https://fronted-tsx-developer.github.io/demos/qrcode.html)
 8. [todotree](https://fronted-tsx-developer.github.io/demos/todotree/index.html)
-9. [mind](https://fronted-tsx-developer.github.io/demos/todotree/mind.html)
+9. [mind](https://fronted-tsx-developer.github.io/demos/mind.html)
