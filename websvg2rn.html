@@ -1,0 +1,207 @@
+<!DOCTYPE html><html><head><style>html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.title {
+  font-size: 3rem;
+  color: lightskyblue;
+}
+
+#root {
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+a {
+  color: grey;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(-1px, -1px);
+  }
+  5% {
+    transform: translate(1px, 1px);
+  }
+  10% {
+    transform: translate(-1px, -1px);
+  }
+  15% {
+    transform: translate(1px, 1px);
+  }
+  20% {
+    transform: translate(0px, 0px);
+  }
+}</style>
+		 <script>var __VAR_JSON__ = {
+  "name": "o(*≧▽≦)ツ┏━┓",
+  "dependencies": {
+    "react": "https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js",
+    "moment": "https://cdn.jsdelivr.net/npm/moment/moment.js",
+    "antd": "https://cdn.jsdelivr.net/npm/antd/dist/antd.min.js",
+    "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/dist/index.umd.js"
+  },
+  "types": {
+    "react": "https://cdn.jsdelivr.net/npm/@types/react/index.d.ts",
+    "react-dom": "https://cdn.jsdelivr.net/npm/@types/react-dom/index.d.ts",
+    "csstype": "https://cdn.jsdelivr.net/npm/csstype/index.d.ts",
+    "prop-types": "https://cdn.jsdelivr.net/npm/@types/prop-types/index.d.ts",
+    "moment": "https://cdn.jsdelivr.net/npm/moment/moment.d.ts",
+    "global:antd": "https://cdn.jsdelivr.net/gh/saber2pr/antd-types-bundle@gh-pages/antd.d.ts",
+    "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/lib/icons/index.d.ts"
+  }
+}
+;</script>
+		 <!-- for typescript target: AMD -->
+<script src="https://cdn.jsdelivr.net/gh/requirejs/requirejs/require.js"></script>
+
+<!-- antd stylesheet -->
+<link href="https://cdn.jsdelivr.net/npm/antd/dist/antd.min.css" rel="stylesheet">
+
+</head><body><div id="root"></div>
+
+		 <script>;(function(){
+	// 1. config requirejs
+const packages = __VAR_JSON__.dependencies
+const oldLoad = requirejs.load
+requirejs.load = function (context, id, url) {
+  if (id in packages) {
+    url = packages[id]
+  }
+  return oldLoad.call(requirejs, context, id, url)
+}
+
+// 2. declarations config
+// please remove it before sandbox exports.
+// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+if (top !== self) {
+  if (!top._finished) {
+    top.LOADING.init()
+    const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
+    console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
+    console.log('--- wait for types fetching... ---')
+    const info = m => `<span style="background:lightskyblue">${m}</span>`
+    const types = __VAR_JSON__.types
+    const names = Object.keys(types)
+    const count = names.length
+    let index = 0
+    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name.startsWith('global:') ? null : name)
+      .then(() =>
+        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+      .then(() => {
+        console.log(`--- types fetching finished. ---`)
+        top.LOADING.destroy()
+      })
+    top._finished = true
+  }
+}
+
+// 3. enjoy it!
+console.log(__VAR_JSON__.name, new Date().toLocaleString())
+
+	})();</script><script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define("index",["require", "exports", "react-dom", "react", "antd"], function (require, exports, react_dom_1, react_1, antd_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.combineReplacers = exports.pipe = exports.compose = void 0;
+    react_dom_1 = __importDefault(react_dom_1);
+    react_1 = __importStar(react_1);
+    var mountNode = document.getElementById('root');
+    function compose() {
+        var fns = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            fns[_i] = arguments[_i];
+        }
+        return fns.reduce(function (a, b) { return function (value) { return a(b(value)); }; });
+    }
+    exports.compose = compose;
+    function pipe() {
+        var fns = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            fns[_i] = arguments[_i];
+        }
+        return compose.apply(void 0, __spreadArray([], __read(fns.slice().reverse())));
+    }
+    exports.pipe = pipe;
+    var combineReplacers = function (replacers) {
+        return pipe.apply(void 0, __spreadArray([], __read(replacers.map(function (_a) {
+            var _b = __read(_a, 2), reg = _b[0], replacer = _b[1];
+            return function (str) {
+                return str.replace(new RegExp(reg.source, 'g'), replacer);
+            };
+        }))));
+    };
+    exports.combineReplacers = combineReplacers;
+    var createRepl = function (tag) {
+        return [new RegExp("<" + tag + "|/" + tag + ">"), function (val) {
+                var tagName = tag[0].toUpperCase() + tag.slice(1);
+                if (/</.test(val)) {
+                    return "<" + tagName;
+                }
+                else {
+                    return "/" + tagName + ">";
+                }
+            }];
+    };
+    var parser = exports.combineReplacers([
+        "svg", "circle", "clippath", "defs", "ellipse", "foreignobject", "g", "image", "line", "lineargradient", "marker", "mask", "path", "pattern", "polygon", "polyline", "radialgradient", "rect", "stop", "symbol", "text", "textpath", "tspan", "use"
+    ].map(createRepl));
+    var App = function (_a) {
+        var github = _a.github;
+        var _b = __read(react_1.useState(''), 2), state = _b[0], setState = _b[1];
+        var rnCode = react_1.useMemo(function () {
+            return parser(state);
+        }, [state]);
+        return react_1.default.createElement("div", null,
+            react_1.default.createElement(antd_1.Input.TextArea, { placeholder: "web svg", value: state, onChange: function (e) { return setState(e.target.value); } }),
+            react_1.default.createElement(antd_1.Typography.Paragraph, { copyable: {
+                    text: rnCode
+                } },
+                react_1.default.createElement("pre", null, rnCode)));
+    };
+    react_dom_1.default.render(react_1.default.createElement(App, { github: "https://github.com/Saber2pr/editor" }), mountNode);
+});
+;require(["index"])</script></body></html>
