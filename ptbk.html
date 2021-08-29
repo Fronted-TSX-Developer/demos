@@ -128,10 +128,13 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
         var _c = __read(react_1.useState(), 2), str = _c[0], setStr = _c[1];
         var _d = __read(react_1.useState(), 2), result = _d[0], setResult = _d[1];
         react_1.useEffect(function () {
+		try {
+		
             var ptbk = eval(state);
             if (ptbk && str) {
-                try {setResult(JSON.stringify(ptbk.decode(JSON.parse(str)), null, 2))} catch {} 
+                setResult(JSON.stringify(ptbk.decode(JSON.parse(str)), null, 2))
             }
+		} catch (e) {console.log(e)}
         }, [state, str]);
         return react_1.default.createElement("div", null,
             react_1.default.createElement("div", { className: "input_wrapper" },
