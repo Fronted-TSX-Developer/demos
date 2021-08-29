@@ -130,7 +130,7 @@ define("index",["require", "exports", "react", "react-dom"], function (require, 
         react_1.useEffect(function () {
             var ptbk = eval(state);
             if (ptbk && str) {
-                setResult(JSON.stringify(ptbk.decode(JSON.parse(str)), null, 2));
+                try {setResult(JSON.stringify(ptbk.decode(JSON.parse(str)), null, 2))} catch {} 
             }
         }, [state, str]);
         return react_1.default.createElement("div", null,
