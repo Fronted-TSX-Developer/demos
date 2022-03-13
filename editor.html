@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/gh/requirejs/requirejs/require.js"></script>
+  <title>TSX Editor</title>
+</head>
+
+<body>
+  <button id="download">编译导出</button>
+  <div style="display: flex;">
+    <div id="root" style="width: 50vw;height: 100vh;"></div>
+    <iframe id="preview" style="width: 50vw;height: 100vh;"></iframe>
+  </div>
+  <script>
+    require.config({
+      paths: {
+        vs: 'https://unpkg.com/monaco-editor@0.33.0/min/vs',
+      },
+    })
+
+    require(['vs/editor/editor.main'], (monaco) => {
+      // 创建一个tsx文件
+      const fileModel = monaco.editor.createModel(
+        `import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
+
+const App = () => {
+    const [state, setState] = useState(0)
+    return <div>
+        count: {state}
+        <button onClick={() => setState(state + 1)} >add</button>
+    </div>
+}
+
+ReactDOM.render(<App/>, document.querySelector('#root'))
+`,
+        undefined, // language. infer from uri ext.
+        monaco.Uri.file('main.tsx')
+      )
+
+      const editor = monaco.editor.create(document.querySelector('#root'), {
+        model: fileModel,
+        wordWrap: 'on', // 代码超过屏幕显示自动换行
+      })
+
+      // 设置tsconfig
+      const typescriptDefaults = monaco.languages.typescript.typescriptDefaults
+      typescriptDefaults.setCompilerOptions({
+        jsx: monaco.languages.typescript.JsxEmit['React'],
+        target: monaco.languages.typescript.ScriptTarget['ES5'],
+        module: monaco.languages.typescript.ModuleKind['AMD'],
+        allowSyntheticDefaultImports: true,
+        esModuleInterop: true,
+        allowJs: true,
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+        downlevelIteration: true,
+        removeComments: true,
+        lib: ['dom', 'dom.iterable', 'esnext'],
+      })
+
+      Promise.all([
+        ['https://cdn.jsdelivr.net/npm/@types/react/index.d.ts', 'react'],
+        ['https://cdn.jsdelivr.net/npm/@types/react-dom/index.d.ts', 'react-dom']
+      ].map(([url, name]) =>
+        fetch(url).then(res => res.text())
+          .then(content =>
+            typescriptDefaults.addExtraLib(`declare module "${name}" { ${content} }`, `${name}.d.ts`)
+          )
+      ))
+
+      const getPreviewHtml = () => monaco.languages.typescript.getTypeScriptWorker().then(async tsWorker => {
+        const client = await tsWorker(fileModel.uri)
+        // 获取文件编译后的内容
+        const result = await client.getEmitOutput(fileModel.uri.toString())
+        const files = result.outputFiles[0]
+        const output = files.text
+
+        // 打开预览
+        const winHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/gh/requirejs/requirejs/require.js"><\/script>
+  <script>
+    require.config({
+      paths: {
+        react: 'https://cdn.jsdelivr.net/npm/react/umd/react.production.min',
+        'react-dom': 'https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min',
+      },
+    })
+  <\/script>
+  <title>Document</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script>${output.replace(/define\(/, 'define("index",')};require(["index"])<\/script>
+</body>
+
+</html>`
+        return winHtml
+      })
+
+      const downloadBtn = document.getElementById('download')
+      downloadBtn.onclick = () => {
+        getPreviewHtml().then(html => {
+          const a = document.createElement('a')
+          a.download = 'output.html'
+          a.href = URL.createObjectURL(new Blob([html]))
+          a.click()
+        })
+      }
+
+      const previewIFrame = document.getElementById('preview')
+      fileModel.onDidChangeContent(() => {
+        getPreviewHtml().then(doc => {
+          previewIFrame.srcdoc = doc
+        })
+      })
+      getPreviewHtml().then(doc => {
+        previewIFrame.srcdoc = doc
+      })
+    })
+
+  </script>
+</body>
+
+</html>
