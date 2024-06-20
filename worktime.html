@@ -147,6 +147,17 @@ define("index",["require", "exports", "react-dom", "react", "moment"], function 
     react_1 = __importStar(react_1);
     moment_1 = __importDefault(moment_1);
     var mountNode = document.getElementById('root');
+    function calculateExcessTime(n_hours, m_minutes) {
+        var totalMinutes = n_hours * 60 + m_minutes;
+        var nineAndHalfHoursMinutes = 9 * 60 + 30;
+        if (totalMinutes <= nineAndHalfHoursMinutes) {
+            return -1;
+        }
+        var excessMinutes = totalMinutes - nineAndHalfHoursMinutes;
+        var excessHours = Math.floor(excessMinutes / 60);
+        var excessMinutesRemainder = excessMinutes % 60;
+        return excessHours + "\u5C0F\u65F6" + excessMinutesRemainder + "\u5206";
+    }
     var App = function (_a) {
         var github = _a.github;
         var _b = __read(react_1.useState(0), 2), state = _b[0], setState = _b[1];
@@ -154,6 +165,9 @@ define("index",["require", "exports", "react-dom", "react", "moment"], function 
             setState(+localStorage.getItem('work_start_time'));
         }, []);
         var dur = moment_1.default.duration(moment_1.default().diff(moment_1.default(state)));
+        var hours = dur.hours();
+        var minutes = dur.minutes();
+        var overTime = calculateExcessTime(hours, minutes);
         return react_1.default.createElement("div", null,
             react_1.default.createElement("button", { onClick: function () {
                     var settime = confirm('设置开始时间?');
@@ -168,10 +182,13 @@ define("index",["require", "exports", "react-dom", "react", "moment"], function 
                 moment_1.default(state).format('YYYYMMDD HH:mm:ss')),
             react_1.default.createElement("div", null,
                 "\u5DF2\u5DE5\u4F5C\u65F6\u957F\uFF1A",
-                dur.hours(),
+                hours,
                 "\u5C0F\u65F6",
-                dur.minutes(),
-                "\u5206\u949F"));
+                minutes,
+                "\u5206\u949F"),
+            overTime !== -1 && react_1.default.createElement("div", null,
+                "\u5DF2\u8D85\u8FC7",
+                overTime));
     };
     react_dom_1.default.render(react_1.default.createElement(App, { github: "https://github.com/Saber2pr/editor" }), mountNode);
 });
