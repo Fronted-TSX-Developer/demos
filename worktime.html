@@ -1,195 +1,246 @@
-<!DOCTYPE html><html><head><style>html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
+<!DOCTYPE html>
+<html>
 
-.title {
-  font-size: 3rem;
-  color: lightskyblue;
-}
-
-#root {
-  border-radius: 1rem;
-  padding: 1rem;
-}
-
-a {
-  color: grey;
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(-1px, -1px);
-  }
-  5% {
-    transform: translate(1px, 1px);
-  }
-  10% {
-    transform: translate(-1px, -1px);
-  }
-  15% {
-    transform: translate(1px, 1px);
-  }
-  20% {
-    transform: translate(0px, 0px);
-  }
-}</style>
-		 <script>var __VAR_JSON__ = {
-  "name": "o(*≧▽≦)ツ┏━┓",
-  "dependencies": {
-    "react": "https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js",
-    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js",
-    "axios": "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js",
-    "moment": "https://cdn.jsdelivr.net/npm/moment/moment.js",
-    "antd": "https://cdn.jsdelivr.net/npm/antd@4.24.4/dist/antd.min.js",
-    "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/dist/index.umd.js"
-  },
-  "types": {
-    "react": "https://cdn.jsdelivr.net/npm/@types/react/index.d.ts",
-    "react-dom": "https://cdn.jsdelivr.net/npm/@types/react-dom/index.d.ts",
-    "csstype": "https://cdn.jsdelivr.net/npm/csstype/index.d.ts",
-    "prop-types": "https://cdn.jsdelivr.net/npm/@types/prop-types/index.d.ts",
-    "axios": "https://cdn.jsdelivr.net/npm/axios/index.d.ts",
-    "moment": "https://cdn.jsdelivr.net/npm/moment/moment.d.ts",
-    "global:antd": "https://cdn.jsdelivr.net/gh/saber2pr/antd-types-bundle@gh-pages/antd.d.ts",
-    "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/lib/icons/index.d.ts"
-  }
-}
-;</script>
-		 <!-- for typescript target: AMD -->
-<script src="https://cdn.jsdelivr.net/gh/requirejs/requirejs/require.js"></script>
-
-<!-- antd stylesheet -->
-<link href="https://cdn.jsdelivr.net/npm/antd/dist/antd.min.css" rel="stylesheet">
-
-</head><body><div id="root"></div>
-
-		 <script>;(function(){
-	// 1. config requirejs
-const packages = __VAR_JSON__.dependencies
-const oldLoad = requirejs.load
-requirejs.load = function (context, id, url) {
-  if (id in packages) {
-    url = packages[id]
-  }
-  return oldLoad.call(requirejs, context, id, url)
-}
-
-// 2. declarations config
-// please remove it before sandbox exports.
-// api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
-if (top !== self) {
-  if (!top._finished) {
-    top.LOADING.init()
-    const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
-    console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
-    console.log('--- wait for types fetching... ---')
-    const info = m => `<span style="background:lightskyblue">${m}</span>`
-    const types = __VAR_JSON__.types
-    const names = Object.keys(types)
-    const count = names.length
-    let index = 0
-    Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name.startsWith('global:') ? null : name)
-      .then(() =>
-        console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
-      .then(() => {
-        console.log(`--- types fetching finished. ---`)
-        top.LOADING.destroy()
-      })
-    top._finished = true
-  }
-}
-
-// 3. enjoy it!
-console.log(__VAR_JSON__.name, new Date().toLocaleString())
-
-	})();</script><script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+<head>
+  <style>
+    html {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     }
-    catch (error) { e = { error: error }; }
-    finally {
+
+    .title {
+      font-size: 3rem;
+      color: lightskyblue;
+    }
+
+    #root {
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+
+    a {
+      color: grey;
+    }
+
+    @keyframes shake {
+      0% {
+        transform: translate(-1px, -1px);
+      }
+
+      5% {
+        transform: translate(1px, 1px);
+      }
+
+      10% {
+        transform: translate(-1px, -1px);
+      }
+
+      15% {
+        transform: translate(1px, 1px);
+      }
+
+      20% {
+        transform: translate(0px, 0px);
+      }
+    }
+  </style>
+  <script>var __VAR_JSON__ = {
+      "name": "o(*≧▽≦)ツ┏━┓",
+      "dependencies": {
+        "react": "https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js",
+        "axios": "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js",
+        "moment": "https://cdn.jsdelivr.net/npm/moment/moment.js",
+        "antd": "https://cdn.jsdelivr.net/npm/antd@4.24.4/dist/antd.min.js",
+        "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/dist/index.umd.js"
+      },
+      "types": {
+        "react": "https://cdn.jsdelivr.net/npm/@types/react/index.d.ts",
+        "react-dom": "https://cdn.jsdelivr.net/npm/@types/react-dom/index.d.ts",
+        "csstype": "https://cdn.jsdelivr.net/npm/csstype/index.d.ts",
+        "prop-types": "https://cdn.jsdelivr.net/npm/@types/prop-types/index.d.ts",
+        "axios": "https://cdn.jsdelivr.net/npm/axios/index.d.ts",
+        "moment": "https://cdn.jsdelivr.net/npm/moment/moment.d.ts",
+        "global:antd": "https://cdn.jsdelivr.net/gh/saber2pr/antd-types-bundle@gh-pages/antd.d.ts",
+        "@ant-design/icons": "https://cdn.jsdelivr.net/npm/@ant-design/icons/lib/icons/index.d.ts"
+      }
+    }
+      ;</script>
+  <!-- for typescript target: AMD -->
+  <script src="https://cdn.jsdelivr.net/gh/requirejs/requirejs/require.js"></script>
+
+  <!-- antd stylesheet -->
+  <link href="https://cdn.jsdelivr.net/npm/antd/dist/antd.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>; (function () {
+      // 1. config requirejs
+      const packages = __VAR_JSON__.dependencies
+      const oldLoad = requirejs.load
+      requirejs.load = function (context, id, url) {
+        if (id in packages) {
+          url = packages[id]
+        }
+        return oldLoad.call(requirejs, context, id, url)
+      }
+
+      // 2. declarations config
+      // please remove it before sandbox exports.
+      // api docs:https://github.com/Saber2pr/editor/blob/master/docs/script.md
+      if (top !== self) {
+        if (!top._finished) {
+          top.LOADING.init()
+          const typescriptVersion = top.monaco.languages.typescript.typescriptVersion
+          console.log(`[<span style="color:blue;">Typescript Version:${typescriptVersion}</span>]`)
+          console.log('--- wait for types fetching... ---')
+          const info = m => `<span style="background:lightskyblue">${m}</span>`
+          const types = __VAR_JSON__.types
+          const names = Object.keys(types)
+          const count = names.length
+          let index = 0
+          Promise.all(names.map(name => top.api_addModuleDeclaration(types[name], name.startsWith('global:') ? null : name)
+            .then(() =>
+              console.log(`type(${++index}/${count}): ${info(`[${name}]`)} fetched`))))
+            .then(() => {
+              console.log(`--- types fetching finished. ---`)
+              top.LOADING.destroy()
+            })
+          top._finished = true
+        }
+      }
+
+      // 3. enjoy it!
+      console.log(__VAR_JSON__.name, new Date().toLocaleString())
+
+    })();</script>
+  <script>var __createBinding = (this && this.__createBinding) || (Object.create ? (function (o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      Object.defineProperty(o, k2, { enumerable: true, get: function () { return m[k]; } });
+    }) : (function (o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      o[k2] = m[k];
+    }));
+    var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function (o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    }) : function (o, v) {
+      o["default"] = v;
+    });
+    var __importStar = (this && this.__importStar) || function (mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+      __setModuleDefault(result, mod);
+      return result;
+    };
+    var __read = (this && this.__read) || function (o, n) {
+      var m = typeof Symbol === "function" && o[Symbol.iterator];
+      if (!m) return o;
+      var i = m.call(o), r, ar = [], e;
+      try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+      }
+      catch (error) { e = { error: error }; }
+      finally {
         try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
+          if (r && !r.done && (m = i["return"])) m.call(i);
         }
         finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-define("index",["require", "exports", "react-dom", "react", "moment"], function (require, exports, react_dom_1, react_1, moment_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    react_dom_1 = __importDefault(react_dom_1);
-    react_1 = __importStar(react_1);
-    moment_1 = __importDefault(moment_1);
-    var mountNode = document.getElementById('root');
-    function calculateExcessTime(n_hours, m_minutes) {
+      }
+      return ar;
+    };
+    var __importDefault = (this && this.__importDefault) || function (mod) {
+      return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+    define("index", ["require", "exports", "react-dom", "react", "moment"], function (require, exports, react_dom_1, react_1, moment_1) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      react_dom_1 = __importDefault(react_dom_1);
+      react_1 = __importStar(react_1);
+      moment_1 = __importDefault(moment_1);
+      var mountNode = document.getElementById('root');
+      function calculateExcessTime(n_hours, m_minutes) {
         var totalMinutes = n_hours * 60 + m_minutes;
         var nineAndHalfHoursMinutes = 9 * 60 + 30;
         if (totalMinutes <= nineAndHalfHoursMinutes) {
-            return -1;
+          return -1;
         }
         var excessMinutes = totalMinutes - nineAndHalfHoursMinutes;
         var excessHours = Math.floor(excessMinutes / 60);
         var excessMinutesRemainder = excessMinutes % 60;
         return excessHours + "\u5C0F\u65F6" + excessMinutesRemainder + "\u5206";
-    }
-    var App = function (_a) {
+      }
+      var App = function (_a) {
         var github = _a.github;
         var _b = __read(react_1.useState(0), 2), state = _b[0], setState = _b[1];
         react_1.useEffect(function () {
-            setState(+localStorage.getItem('work_start_time'));
+          setState(+localStorage.getItem('work_start_time'));
         }, []);
+
+        const [tick, update] = react_1.useState(0)
+        console.log("tick:", tick)
+        react_1.useEffect(function () {
+          setTimeout(() => {
+            update(tick + 1)
+          }, 1000)
+        }, [tick]);
+
         var dur = moment_1.default.duration(moment_1.default().diff(moment_1.default(state)));
         var hours = dur.hours();
         var minutes = dur.minutes();
+        var seconds = dur.seconds();
         var overTime = calculateExcessTime(hours, minutes);
+        const moment = moment_1.default
+        const targetTime = moment().startOf('day').add(9, 'hours').add(30, 'minutes');
+        const currentTime = moment().startOf('day').add(hours, 'hours').add(minutes, 'minutes').add(seconds, 'seconds');
+        const diffInSeconds = targetTime.diff(currentTime, 'seconds');
+
+        const newTimestamp = moment().add(diffInSeconds, 'seconds').valueOf();
+        const newTimeStr = moment(newTimestamp).format('YYYY/MM/DD -- hh:mm:ss A')
+
+        const lastMinutes = Math.floor(diffInSeconds / 60); // 计算完整的分钟数
+        const lastSeconds = diffInSeconds % 60; // 计算剩余的秒数
+
         return react_1.default.createElement("div", null,
-            react_1.default.createElement("button", { onClick: function () {
-                    var settime = confirm('设置开始时间?');
-                    if (!settime)
-                        return;
-                    var time = Date.now();
-                    localStorage.setItem('work_start_time', String(time));
-                    setState(time);
-                } }, "\u8BBE\u7F6E\u5F00\u59CB\u65F6\u95F4"),
-            react_1.default.createElement("div", null,
-                "\u5F00\u59CB\u65F6\u95F4\uFF1A",
-                moment_1.default(state).format('YYYYMMDD HH:mm:ss')),
-            react_1.default.createElement("div", null,
-                "\u5DF2\u5DE5\u4F5C\u65F6\u957F\uFF1A",
-                hours,
-                "\u5C0F\u65F6",
-                minutes,
-                "\u5206\u949F"),
-            overTime !== -1 && react_1.default.createElement("div", null,
-                "\u5DF2\u8D85\u8FC7",
-                overTime));
-    };
-    react_dom_1.default.render(react_1.default.createElement(App, { github: "https://github.com/Saber2pr/editor" }), mountNode);
-});
-;require(["index"])</script></body></html>
+          react_1.default.createElement("button", {
+            onClick: function () {
+              var settime = confirm('设置开始时间?');
+              if (!settime)
+                return;
+              var time = Date.now();
+              localStorage.setItem('work_start_time', String(time));
+              setState(time);
+            }
+          }, "\u8BBE\u7F6E\u5F00\u59CB\u65F6\u95F4"),
+          react_1.default.createElement("div", null,
+            "\u5F00\u59CB\u65F6\u95F4\uFF1A",
+            moment_1.default(state).format('YYYY/MM/DD -- hh:mm:ss A')),
+          react_1.default.createElement("div", null,
+            "\u5DF2\u5DE5\u4F5C\u65F6\u957F\uFF1A",
+            hours,
+            "\u5C0F\u65F6",
+            minutes,
+            "\u5206\u949F"),
+          overTime !== -1 && react_1.default.createElement("div", null,
+            "\u5DF2\u8D85\u8FC7",
+            overTime),
+          react_1.default.createElement("div", {
+            style: { marginTop: "16px" }
+          },
+            `还有: ${lastMinutes}分 ${lastSeconds}秒`,
+          ),
+          react_1.default.createElement("div", {
+            style: { marginTop: "16px" }
+          },
+            "结束时间: ",
+            newTimeStr)
+        );
+      };
+      react_dom_1.default.render(react_1.default.createElement(App, { github: "https://github.com/Saber2pr/editor" }), mountNode);
+    });
+    ; require(["index"])</script>
+</body>
+
+</html>
